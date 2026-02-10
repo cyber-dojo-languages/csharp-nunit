@@ -1,5 +1,10 @@
-FROM cyberdojofoundation/csharp:379ef62
+FROM ghcr.io/cyber-dojo-languages/csharp:1248eea
 LABEL maintainer=jon@jaggersoft.com
+# OS=Alpine
 
+USER sandbox
 COPY . .
-RUN ./install.sh && rm ./install.sh
+RUN ./install.sh
+USER root
+RUN rm ./install.sh
+USER sandbox

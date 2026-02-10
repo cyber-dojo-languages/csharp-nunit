@@ -1,9 +1,15 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
-mono nuget.exe restore -PackagesDirectory .
+# After these commands have run ~/.nuget/packages contains nunit/ and nunit.console/ dirs
+# and the jj dir has a csproj file copied into the docker/ dir
 
-mkdir /nunit
-mv NUnit.*/lib                  /nunit
-mv NUnit.ConsoleRunner.*/tools  /nunit
+cd /tmp
+mkdir jj
 
-mv red_amber_green.rb /usr/local/bin
+dotnet new nunit --output jj
+cd jj
+dotnet add package NUnit.ConsoleRunner
+
+cd ..
+rm -rf *
