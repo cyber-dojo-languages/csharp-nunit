@@ -1,10 +1,7 @@
-FROM ghcr.io/cyber-dojo-languages/csharp:1248eea
+FROM ghcr.io/cyber-dojo-languages/csharp:3507507
 LABEL maintainer=jon@jaggersoft.com
-# OS=Alpine
 
 USER sandbox
 COPY . .
 RUN ./install.sh
-USER root
-RUN rm ./install.sh
-USER sandbox
+COPY red_amber_green.rb /usr/local/bin
