@@ -21,4 +21,4 @@ dotnet new nunit
 mv obj ~/dotnet_obj
 
 # Install NUnit runner - will save ~1.5 seconds compared with dotnet test
-dotnet tool install --global NUnit.ConsoleRunner --version 3.22.0
+dotnet tool install --global NUnit.ConsoleRunner.NetCore --version 3.22.0
