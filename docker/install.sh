@@ -18,6 +18,12 @@ mkdir /tmp/dojo
 cd /tmp/dojo
 dotnet new nunit
 
+# Two mocking libraries, so a kata can show either one. The versions are
+# pinned because the start-point's cyber-dojo.sh names them in the paths it
+# links the assemblies from, and an unpinned install would move those paths.
+dotnet add package Moq --version 4.20.72
+dotnet add package NSubstitute --version 5.3.0
+
 mv obj ~/dotnet_obj
 
 # Install NUnit runner - will save ~1.5 seconds compared with dotnet test
