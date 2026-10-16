@@ -18,13 +18,30 @@ mkdir /tmp/dojo
 cd /tmp/dojo
 dotnet new nunit
 
-# Two mocking libraries, so a kata can show either one. The versions are
-# pinned because the start-point's cyber-dojo.sh names them in the paths it
-# links the assemblies from, and an unpinned install would move those paths.
-dotnet add package Moq --version 4.20.72
-dotnet add package NSubstitute --version 5.3.0
+# The template names the NUnit its SDK shipped with, so the package is added
+# again here to move it to the newest release.
+dotnet add package NUnit
+
+# Two mocking libraries, so a kata can show either one, each at its newest
+# release. The start-point's cyber-dojo.sh finds their assemblies through a
+# wildcard in place of the version, so a newer release does not move them.
+dotnet add package Moq
+dotnet add package NSubstitute
+
+# The NuGet cache can hold versions the project does not use: the one a
+# package added again replaced, and ones restore fetched on its way to the
+# version it settled on. The start-point finds each assembly through a
+# wildcard in place of the version, which needs exactly one version of each
+# there, so every version project.assets.json does not name is removed.
+for dir in ~/.nuget/packages/*/*/; do
+  name=$(basename "$(dirname "${dir}")")
+  version=$(basename "${dir}")
+  if ! grep -q -i "\"${name}/${version}\"" obj/project.assets.json; then
+    rm -rf "${dir}"
+  fi
+done
 
 mv obj ~/dotnet_obj
 
 # Install NUnit runner - will save ~1.5 seconds compared with dotnet test
-dotnet tool install --global NUnit.ConsoleRunner.NetCore --version 3.22.0
+dotnet tool install --global NUnit.ConsoleRunner.NetCore
